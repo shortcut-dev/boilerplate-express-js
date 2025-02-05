@@ -5,7 +5,7 @@ const { validate } = require("../middlewares/validate");
 const { validateLogin } = require("../utils/validateInput");
 var router = express.Router();
 
-/* GET users listing. */
+/* GET auth listing. */
 router.get("/whoami", restrict, (req, res, next) => {
     res.json(req.user);
 });

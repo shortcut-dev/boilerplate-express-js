@@ -15,24 +15,20 @@ const options = {
 
 passport.use(
     new JwtStrategy(options, async (payload, done) => {
-        try {
-            if (payload.exp < Date.now()) {
-                done(null, false);
-            }
-            user.findOne({
+        if (payload.exp < Date.now()) {
+            return done(null, false);
+        }
+        await user
+            .findOne({
                 where: { user_id: payload.sub },
                 attributes: { exclude: ["password"] },
             })
-                .then((userLog) => {
-                    console.log(userLog);
-                    done(null, userLog);
-                })
-                .catch((err) => {
-                    done(err, false);
-                });
-        } catch (error) {
-            done(error.message, false);
-        }
+            .then((userLog) => {
+                done(null, userLog);
+            })
+            .catch((err) => {
+                done(err, false);
+            });
     })
 );
 

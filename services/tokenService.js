@@ -17,7 +17,7 @@ const generateToken = async (
     const payload = {
         sub: userId,
         iat: moment().unix(),
-        exp: Math.floor(Date.now() / 1000) + expires,
+        exp: Math.floor(Date.now() + expires),
     };
     return jwt.sign(payload, secret);
 };
@@ -28,10 +28,10 @@ const generateToken = async (
  * @returns {Promise<Object>}
  */
 const generateAuthTokens = async (user) => {
-    const accessTokenExpires = 60 * 60 * 4;
+    const accessTokenExpires = 60 * 60 * 4 * 1000;
     const accessToken = await generateToken(user.user_id, accessTokenExpires);
 
-    const refreshTokenExpires = 60 * 60 * 24;
+    const refreshTokenExpires = 60 * 60 * 24 * 1000;
     const refreshToken = await generateToken(user.user_id, refreshTokenExpires);
 
     return {

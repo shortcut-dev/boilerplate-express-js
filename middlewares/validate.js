@@ -11,13 +11,13 @@ const validate = (schema) => (req, res, next) => {
             req.validatedBody = validated.data; // Attach validated data to request object
             next();
         } else {
-            res.status(400).json({
+            return res.status(400).json({
                 error: "Schema Input Not Match",
                 details: validated.error.errors,
             });
         }
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        return res.status(400).json({ error: error.message });
     }
 };
 
